@@ -6,7 +6,7 @@ living therapy teams.
 
 ## Features
 - Multi-intervention calculator with individual time entries
-- Single time calculator with quick preset buttons
+- Total time calculator with quick preset buttons
 - Minutes to next billable unit with progress indicator
 - Full unit reference table
 
