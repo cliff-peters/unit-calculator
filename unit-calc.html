@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Unit Calc – The DOR Suite</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Mulish:wght@400;600;700;800;900&display=swap" rel="stylesheet"/>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: #0c0f14; color: #f0f2f5; font-family: "Mulish", sans-serif;
+  min-height: 100vh; display: flex; flex-direction: column; align-items: center;
+  padding: 40px 20px 80px;
+}
+.wrap { width: 100%; max-width: 560px; }
+.eyebrow { font-size: 11.5px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: #9ca3b4; margin-bottom: 6px; }
+h1 { font-family: "Mulish", sans-serif; font-size: 1.9rem; font-weight: 800; line-height: 1.2; margin-bottom: 28px; }
+h1 span { color: #5a9de6; }
+.tabs { display: flex; background: #1e2430; border: 1px solid #333a48; border-radius: 10px; padding: 4px; gap: 4px; margin-bottom: 20px; }
+.tab { flex: 1; padding: 10px; background: transparent; border: none; border-radius: 7px; color: #9ca3b4; font-family: "Mulish", sans-serif; font-size: 12.5px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; transition: all 0.15s; }
+.tab.active { background: #5a9de6; color: #fff; }
+.panel { display: none; }
+.panel.active { display: block; }
+.card { background: #1e2430; border: 1px solid #333a48; border-radius: 12px; padding: 24px; margin-bottom: 14px; }
+.card-label { font-size: 11.5px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #9ca3b4; margin-bottom: 16px; display: block; }
+.col-headers { display: grid; grid-template-columns: 1fr 80px 36px; gap: 10px; margin-bottom: 8px; }
+.col-hdr { font-size: 10.5px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #9ca3b4; }
+.int-row { display: grid; grid-template-columns: 1fr 80px 36px; gap: 10px; align-items: center; margin-bottom: 10px; }
+.int-name { background: #1e2430; border: 1px solid #333a48; border-radius: 7px; color: #f0f2f5; font-family: "Mulish", sans-serif; font-size: 14px; padding: 9px 12px; outline: none; width: 100%; transition: border-color 0.13s; }
+.int-name::placeholder { color: #3a4460; }
+.int-name:focus { border-color: rgba(74,144,217,0.5); }
+.int-mins { background: #1e2430; border: 1px solid #333a48; border-radius: 7px; color: #f0f2f5; font-family: "Bebas Neue", sans-serif; font-size: 1.4rem; padding: 8px 6px; outline: none; width: 100%; text-align: center; transition: border-color 0.13s; -moz-appearance: textfield; appearance: none; }
+.int-mins::-webkit-outer-spin-button, .int-mins::-webkit-inner-spin-button { -webkit-appearance: none; }
+.int-mins::placeholder { color: #3a4460; }
+.int-mins:focus { border-color: rgba(74,144,217,0.5); }
+.del-btn { background: #1e2430; border: 1px solid #333a48; border-radius: 7px; color: #9ca3b4; font-size: 18px; width: 36px; height: 36px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.13s; flex-shrink: 0; }
+.del-btn:hover { border-color: #e8524a; color: #e8524a; }
+.add-btn { width: 100%; margin-top: 12px; padding: 10px; background: transparent; border: 1px dashed #333a48; border-radius: 7px; color: #9ca3b4; font-family: "Mulish", sans-serif; font-size: 12.5px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; transition: all 0.13s; }
+.add-btn:hover { border-color: #5a9de6; color: #5a9de6; }
+.total-row { display: flex; align-items: center; justify-content: space-between; background: rgba(74,144,217,0.1); border: 1px solid rgba(74,144,217,0.2); border-radius: 8px; padding: 12px 16px; margin-top: 14px; }
+.total-lbl { font-size: 11.5px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #5a9de6; }
+.total-val { font-family: "Bebas Neue", sans-serif; font-size: 2rem; color: #5a9de6; letter-spacing: 0.04em; }
+.single-row { display: flex; align-items: center; gap: 12px; }
+.big-input { flex: 1; background: #1e2430; border: 1px solid #333a48; border-radius: 8px; color: #f0f2f5; font-family: "Bebas Neue", sans-serif; font-size: 3rem; padding: 12px 16px; text-align: center; outline: none; transition: border-color 0.13s; -moz-appearance: textfield; appearance: none; }
+.big-input::-webkit-outer-spin-button, .big-input::-webkit-inner-spin-button { -webkit-appearance: none; }
+.big-input::placeholder { color: #333a48; }
+.big-input:focus { border-color: #5a9de6; }
+.min-lbl { font-size: 13.5px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #9ca3b4; }
+.steppers { display: flex; flex-direction: column; gap: 6px; }
+.stepper { background: #1e2430; border: 1px solid #333a48; border-radius: 6px; color: #9ca3b4; font-size: 16px; font-weight: 700; width: 36px; height: 36px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.13s; }
+.stepper:hover { border-color: #5a9de6; color: #5a9de6; }
+.presets { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+.preset { background: #1e2430; border: 1px solid #333a48; border-radius: 6px; color: #9ca3b4; font-family: "Mulish", sans-serif; font-size: 12.5px; font-weight: 700; padding: 6px 12px; cursor: pointer; transition: all 0.13s; }
+.preset:hover { border-color: #5a9de6; color: #5a9de6; }
+.calc-btn { width: 100%; padding: 14px; background: #5a9de6; border: none; border-radius: 8px; color: #fff; font-family: "Mulish", sans-serif; font-size: 14px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; transition: all 0.13s; margin-bottom: 14px; }
+.calc-btn:hover { background: #5aa0e8; transform: translateY(-1px); }
+.results { display: none; }
+.results.show { display: block; }
+.result-card { background: #1e2430; border: 1px solid #333a48; border-radius: 12px; padding: 22px 24px; margin-bottom: 12px; }
+.result-hdr { font-size: 11.5px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #9ca3b4; margin-bottom: 14px; display: block; }
+.big-units { display: flex; align-items: center; gap: 20px; }
+.big-u { font-family: "Bebas Neue", sans-serif; font-size: 5rem; line-height: 1; }
+.unit-detail { font-size: 14px; color: #f0f2f5; line-height: 1.5; }
+.unit-sub { font-size: 12.5px; color: #9ca3b4; margin-top: 4px; }
+.c-blue { color: #5a9de6; } .c-green { color: #3ecf7a; } .c-amber { color: #f0a830; } .c-muted { color: #9ca3b4; }
+.prog-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+.prog-badge { font-size: 11.5px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 4px 10px; border-radius: 4px; }
+.b-far   { background: rgba(74,144,217,0.1); color: #5a9de6; border: 1px solid rgba(74,144,217,0.2); }
+.b-close { background: rgba(240,168,48,0.1);  color: #f0a830; border: 1px solid rgba(240,168,48,0.2); }
+.b-max   { background: rgba(62,207,122,0.1);  color: #3ecf7a; border: 1px solid rgba(62,207,122,0.2); }
+.track { height: 8px; background: #1e2430; border-radius: 4px; overflow: hidden; margin-bottom: 12px; }
+.fill { height: 100%; border-radius: 4px; transition: width 0.4s ease; }
+.next-row2 { display: flex; justify-content: space-between; align-items: flex-end; }
+.next-big { font-family: "Bebas Neue", sans-serif; font-size: 2.2rem; line-height: 1; }
+.next-info { font-size: 12.5px; color: #9ca3b4; text-align: right; line-height: 1.6; }
+.ref-row { display: flex; align-items: center; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #333a48; font-size: 13.5px; }
+.ref-row:last-child { border-bottom: none; }
+.ref-row.hl { background: rgba(74,144,217,0.1); margin: 0 -8px; padding: 8px; border-radius: 6px; border-bottom: none; }
+.ref-u { font-family: "Bebas Neue", sans-serif; font-size: 1.3rem; color: #9ca3b4; }
+.ref-u.hl { color: #5a9de6; }
+.bd-row { display: flex; justify-content: space-between; font-size: 13.5px; padding: 7px 0; border-bottom: 1px solid #333a48; }
+.bd-row:last-child { border-bottom: none; }
+.bd-name { color: #9ca3b4; } .bd-min { color: #f0f2f5; font-weight: 600; }
+.bd-tname { color: #f0f2f5; font-weight: 700; } .bd-tmin { color: #5a9de6; font-weight: 700; }
+.clear-btn { width: 100%; padding: 11px; background: transparent; border: 1px solid #333a48; border-radius: 8px; color: #9ca3b4; font-family: "Mulish", sans-serif; font-size: 12.5px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; transition: all 0.13s; margin-bottom: 14px; }
+.clear-btn:hover { border-color: #9ca3b4; color: #f0f2f5; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div style="font-size:.6rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#5a9de6;margin-bottom:10px;">The DOR Suite</div>
+  <h1 style="display:flex;align-items:center;gap:14px;">
+    <span style="width:44px;height:44px;background:linear-gradient(135deg,#4a90d9,#3ecf7a);border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:'Mulish',sans-serif;font-size:1.1rem;font-weight:900;color:#0c0f14;letter-spacing:.02em;flex-shrink:0;">CP</span>
+    <span>Unit <span style="color:#5a9de6;">Calc</span></span>
+  </h1>
+  <div class="tabs">
+    <button class="tab active" id="tab-multi" onclick="showTab('multi')">Multi-Intervention</button>
+    <button class="tab" id="tab-single" onclick="showTab('single')">Total Minutes</button>
+  </div>
+
+  <div class="panel active" id="panel-multi">
+    <div class="card">
+      <span class="card-label">Timed Interventions</span>
+      <div class="col-headers">
+        <span class="col-hdr">Intervention</span>
+        <span class="col-hdr" style="text-align:center">Min</span>
+        <span></span>
+      </div>
+      <div id="int-list"></div>
+      <button class="add-btn" onclick="addRow()">+ Add Intervention</button>
+      <div class="total-row">
+        <span class="total-lbl">Total Timed Minutes</span>
+        <span class="total-val" id="m-total">0</span>
+      </div>
+    </div>
+    <button class="calc-btn" onclick="calcMulti()">Calculate Units</button>
+    <div class="results" id="m-results">
+      <div class="result-card">
+        <span class="result-hdr">Billable Units</span>
+        <div class="big-units">
+          <span class="big-u c-blue" id="m-units">0</span>
+          <div><div class="unit-detail" id="m-desc">-</div><div class="unit-sub" id="m-range"></div></div>
+        </div>
+      </div>
+      <div class="result-card">
+        <div class="prog-header">
+          <span class="result-hdr" style="margin-bottom:0">Minutes to Next Unit</span>
+          <span class="prog-badge b-far" id="m-badge">-</span>
+        </div>
+        <div class="track"><div class="fill c-blue" id="m-fill" style="width:0%;background:#5a9de6"></div></div>
+        <div class="next-row2">
+          <span class="next-big c-blue" id="m-next">-</span>
+          <span class="next-info" id="m-next-info">-</span>
+        </div>
+      </div>
+      <div class="result-card">
+        <span class="result-hdr">Intervention Breakdown</span>
+        <div id="m-bd"></div>
+      </div>
+      <div class="result-card">
+        <span class="result-hdr">Full Unit Reference</span>
+        <div id="m-table"></div>
+      </div>
+      <button class="clear-btn" onclick="clearMulti()">Clear All</button>
+    </div>
+  </div>
+  <div class="panel" id="panel-single">
+    <div class="card">
+      <span class="card-label">Total Timed Minutes</span>
+      <div class="single-row">
+        <input type="number" class="big-input" id="s-input" placeholder="0" min="1" max="180"/>
+        <span class="min-lbl">min</span>
+        <div class="steppers">
+          <button class="stepper" onclick="stepVal(1)">+</button>
+          <button class="stepper" onclick="stepVal(-1)">-</button>
+        </div>
+      </div>
+      <div class="presets">
+        <button class="preset" onclick="setVal(8)">8</button>
+        <button class="preset" onclick="setVal(15)">15</button>
+        <button class="preset" onclick="setVal(22)">22</button>
+        <button class="preset" onclick="setVal(30)">30</button>
+        <button class="preset" onclick="setVal(37)">37</button>
+        <button class="preset" onclick="setVal(45)">45</button>
+        <button class="preset" onclick="setVal(52)">52</button>
+        <button class="preset" onclick="setVal(60)">60</button>
+      </div>
+    </div>
+    <button class="calc-btn" onclick="calcSingle()">Calculate Units</button>
+    <div class="results" id="s-results">
+      <div class="result-card">
+        <span class="result-hdr">Billable Units</span>
+        <div class="big-units">
+          <span class="big-u c-blue" id="s-units">0</span>
+          <div><div class="unit-detail" id="s-desc">-</div><div class="unit-sub" id="s-range"></div></div>
+        </div>
+      </div>
+      <div class="result-card">
+        <div class="prog-header">
+          <span class="result-hdr" style="margin-bottom:0">Minutes to Next Unit</span>
+          <span class="prog-badge b-far" id="s-badge">-</span>
+        </div>
+        <div class="track"><div class="fill" id="s-fill" style="width:0%;background:#5a9de6"></div></div>
+        <div class="next-row2">
+          <span class="next-big c-blue" id="s-next">-</span>
+          <span class="next-info" id="s-next-info">-</span>
+        </div>
+      </div>
+      <div class="result-card">
+        <span class="result-hdr">Full Unit Reference</span>
+        <div id="s-table"></div>
+      </div>
+      <button class="clear-btn" onclick="clearSingle()">Clear</button>
+    </div>
+  </div>
+
+  <div style="text-align:center;padding:40px 0 0;margin-top:40px;border-top:1px solid #333a48;display:flex;align-items:center;justify-content:center;gap:10px;">
+    <span style="width:28px;height:28px;background:linear-gradient(135deg,#4a90d9,#3ecf7a);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:900;color:#0c0f14;letter-spacing:.02em;">CP</span>
+    <span style="font-size:.7rem;font-weight:600;letter-spacing:.08em;color:#9ca3b4;">Designed by Cliff Peters</span>
+  </div>
+</div>
+
+<script>
+var rowId = 0;
+var REF = [
+  {u:1,lo:8,hi:22},{u:2,lo:23,hi:37},{u:3,lo:38,hi:52},{u:4,lo:53,hi:67},
+  {u:5,lo:68,hi:82},{u:6,lo:83,hi:97},{u:7,lo:98,hi:112},{u:8,lo:113,hi:999}
+];
+
+function getUnits(m) {
+  if (m < 8) return 0;
+  for (var i = 0; i < REF.length; i++) {
+    if (m >= REF[i].lo && m <= REF[i].hi) return REF[i].u;
+  }
+  return 8;
+}
+
+function showTab(name) {
+  document.getElementById("tab-multi").className  = (name==="multi")  ? "tab active" : "tab";
+  document.getElementById("tab-single").className = (name==="single") ? "tab active" : "tab";
+  document.getElementById("panel-multi").className  = (name==="multi")  ? "panel active" : "panel";
+  document.getElementById("panel-single").className = (name==="single") ? "panel active" : "panel";
+}
+
+function addRow() {
+  rowId++;
+  var ph = (rowId === 1) ? "e.g. Gait Training" : "Intervention";
+  var div = document.createElement("div");
+  div.className = "int-row";
+  div.id = "r" + rowId;
+  var rid = rowId;
+  div.innerHTML =
+    '<input type="text" class="int-name" placeholder="' + ph + '">' +
+    '<input type="number" class="int-mins" placeholder="0" min="1" max="120">' +
+    '<button class="del-btn" id="del' + rid + '">&#215;</button>';
+  document.getElementById("int-list").appendChild(div);
+  document.getElementById("del" + rid).addEventListener("click", function() {
+    var el = document.getElementById("r" + rid);
+    if (el) { el.remove(); recalcTotal(); }
+  });
+  div.querySelector(".int-mins").addEventListener("input", recalcTotal);
+  recalcTotal();
+}
+
+function recalcTotal() {
+  var inputs = document.querySelectorAll("#int-list .int-mins");
+  var t = 0;
+  for (var i = 0; i < inputs.length; i++) {
+    var v = parseInt(inputs[i].value, 10);
+    if (v > 0) t += v;
+  }
+  document.getElementById("m-total").textContent = t;
+}
+
+function renderResults(pfx, mins) {
+  var u = getUnits(mins);
+  var uEl = document.getElementById(pfx + "-units");
+  uEl.textContent = u;
+  uEl.className = "big-u " + (u===0 ? "c-muted" : u<=2 ? "c-amber" : u<=5 ? "c-blue" : "c-green");
+  document.getElementById(pfx + "-desc").textContent =
+    u===0 ? "Below billable threshold" : u + " billable unit" + (u!==1 ? "s" : "");
+  if (u === 0) {
+    document.getElementById(pfx + "-range").textContent = "Minimum 8 minutes required";
+  } else {
+    var lo = REF[u-1].lo;
+    var hi = u < 8 ? REF[u-1].hi : "113+";
+    document.getElementById(pfx + "-range").textContent = "Range: " + lo + " - " + hi + " min";
+  }
+
+  var nextEl  = document.getElementById(pfx + "-next");
+  var infoEl  = document.getElementById(pfx + "-next-info");
+  var badgeEl = document.getElementById(pfx + "-badge");
+  var fillEl  = document.getElementById(pfx + "-fill");
+
+  if (u >= 8) {
+    nextEl.textContent  = "MAX";
+    nextEl.className    = "next-big c-green";
+    infoEl.textContent  = "Maximum billable units reached";
+    badgeEl.textContent = "Maxed Out";
+    badgeEl.className   = "prog-badge b-max";
+    fillEl.style.width  = "100%";
+    fillEl.style.background = "#3ecf7a";
+  } else {
+    var nextThresh = (u === 0) ? 8 : REF[u].lo;
+    var needed = nextThresh - mins;
+    var bandLo = (u === 0) ? 1 : REF[u-1].lo;
+    var bandSize = nextThresh - bandLo;
+    var pct = Math.min(100, Math.round(((mins - bandLo) / bandSize) * 100));
+    var close = needed <= 3;
+    nextEl.textContent  = needed + " min";
+    nextEl.className    = "next-big " + (close ? "c-amber" : "c-blue");
+    infoEl.textContent  = "Next unit at " + nextThresh + " min";
+    badgeEl.textContent = close ? "Close" : needed + " min away";
+    badgeEl.className   = "prog-badge " + (close ? "b-close" : "b-far");
+    fillEl.style.width  = pct + "%";
+    fillEl.style.background = close ? "#f0a830" : "#5a9de6";
+  }
+
+  var tEl = document.getElementById(pfx + "-table");
+  var th = "";
+  for (var i = 0; i < REF.length; i++) {
+    var r = REF[i];
+    var active = (r.u === u);
+    var range = r.u < 8 ? r.lo + " - " + r.hi + " min" : "113+ min";
+    var tc = active ? "#f0f2f5" : "#9ca3b4";
+    th += '<div class="ref-row' + (active ? " hl" : "") + '">' +
+      '<span style="font-size:13.5px;color:' + tc + '">' + r.u + ' unit' + (r.u>1?"s":"") + '</span>' +
+      '<span style="font-size:13.5px;color:' + tc + ';font-weight:600">' + range + '</span>' +
+      '<span class="ref-u' + (active ? " hl" : "") + '">' + r.u + '</span></div>';
+  }
+  tEl.innerHTML = th;
+
+  document.getElementById(pfx + "-results").className = "results show";
+}
+
+function calcMulti() {
+  var rows = document.querySelectorAll("#int-list .int-row");
+  var total = 0;
+  var items = [];
+  for (var i = 0; i < rows.length; i++) {
+    var name = rows[i].querySelector(".int-name").value.trim() || "Intervention";
+    var mins = parseInt(rows[i].querySelector(".int-mins").value, 10) || 0;
+    if (mins > 0) { total += mins; items.push({name: name, mins: mins}); }
+  }
+  if (total === 0) { alert("Enter minutes for at least one intervention."); return; }
+  renderResults("m", total);
+  var bd = document.getElementById("m-bd");
+  var bh = "";
+  for (var j = 0; j < items.length; j++) {
+    bh += '<div class="bd-row"><span class="bd-name">' + items[j].name + '</span><span class="bd-min">' + items[j].mins + ' min</span></div>';
+  }
+  bh += '<div class="bd-row" style="border-top:1px solid #333a48;margin-top:4px;padding-top:10px;">' +
+    '<span class="bd-tname">Total</span><span class="bd-tmin">' + total + ' min</span></div>';
+  bd.innerHTML = bh;
+  setTimeout(function() { document.getElementById("m-results").scrollIntoView({behavior:"smooth",block:"start"}); }, 60);
+}
+
+function clearMulti() {
+  document.getElementById("int-list").innerHTML = "";
+  rowId = 0;
+  document.getElementById("m-total").textContent = "0";
+  document.getElementById("m-results").className = "results";
+  addRow(); addRow(); addRow();
+}
+
+function stepVal(n) {
+  var el = document.getElementById("s-input");
+  var v = parseInt(el.value, 10) || 0;
+  el.value = Math.max(1, Math.min(180, v + n));
+}
+
+function setVal(n) { document.getElementById("s-input").value = n; }
+
+function calcSingle() {
+  var mins = parseInt(document.getElementById("s-input").value, 10);
+  if (!mins || mins < 1) { alert("Enter a number of minutes."); return; }
+  renderResults("s", mins);
+  setTimeout(function() { document.getElementById("s-results").scrollIntoView({behavior:"smooth",block:"start"}); }, 60);
+}
+
+function clearSingle() {
+  document.getElementById("s-input").value = "";
+  document.getElementById("s-results").className = "results";
+}
+
+addRow(); addRow(); addRow();
+</script>
+</body>
+</html>
