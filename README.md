@@ -11,9 +11,9 @@ Unit Calc takes the guesswork out of the 8-minute rule. Whether you are calculat
 
 ## Tabs
 
-**Multi-Intervention** — Enter each timed intervention with its name and minutes. The tool totals your minutes and calculates billable units. Includes an intervention breakdown showing exactly how each intervention contributed to the total.
+**Multi-Intervention** - Enter each timed intervention with its name and minutes. The tool totals your minutes and calculates billable units. Includes an intervention breakdown showing exactly how each intervention contributed to the total.
 
-**Total Minutes** — Enter a single total minute value for a quick unit lookup. Includes preset buttons for common treatment times (8, 15, 22, 30, 37, 45, 52, 60 minutes).
+**Total Minutes** - Enter a single total minute value for a quick unit lookup. Includes preset buttons for common treatment times (8, 15, 22, 30, 37, 45, 52, 60 minutes).
 
 ## Features
 
@@ -24,7 +24,7 @@ Unit Calc takes the guesswork out of the 8-minute rule. Whether you are calculat
 - Intervention breakdown for multi-intervention sessions
 - Add and remove intervention rows dynamically
 - Stepper buttons and preset values for quick entry
-- Single HTML file with no dependencies — works on any device
+- Single HTML file with no dependencies - works on any device
 - Dark theme with high contrast optimized for Chromebook readability
 
 ## How to Use
@@ -35,19 +35,6 @@ Unit Calc takes the guesswork out of the 8-minute rule. Whether you are calculat
 4. Click "Calculate Units"
 5. Review your billable units, proximity to next unit, and full reference
 
-## 8-Minute Rule Quick Reference
-
-| Units | Minutes |
-|-------|---------|
-| 1 | 8 - 22 |
-| 2 | 23 - 37 |
-| 3 | 38 - 52 |
-| 4 | 53 - 67 |
-| 5 | 68 - 82 |
-| 6 | 83 - 97 |
-| 7 | 98 - 112 |
-| 8 | 113+ |
-
 ## Deployment
 
 Host on GitHub Pages, save to Google Drive, or open the HTML file directly from your computer. No server required.
@@ -56,6 +43,6 @@ Host on GitHub Pages, save to Google Drive, or open the HTML file directly from 
 
 Unit Calc is one tool in The DOR Suite, a collection of workflow tools designed for Directors of Rehabilitation in assisted living.
 
-- **Unit Calc** — 8-minute rule unit calculator
-- **Family Connect** — Family communication emails
+- **Unit Calc** - 8-minute rule unit calculator
+- **Family Connect** - Family communication emails
 
