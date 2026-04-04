@@ -1,7 +1,4 @@
-[README-unit-calc.md](https://github.com/user-attachments/files/26318293/README-unit-calc.md)
 # Unit Calc
-
-**Part of The DOR Suite**
 
 An 8-minute rule unit calculator for therapy billing in assisted living. Enter your timed minutes and get accurate billable units instantly.
 
