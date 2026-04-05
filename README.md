@@ -2,7 +2,7 @@
 
 8-minute rule unit calculator for therapy billing in assisted living.
 
-Live: https://cliff-peters.github.io/unit-calculator
+Live: [https://cliff-peters.github.io/unit-calculator](https://cliff-peters.github.io/unit-calculator)
 
 ## Tabs
 
@@ -20,4 +20,4 @@ Live: https://cliff-peters.github.io/unit-calculator
 
 ## Part of The DOR Suite
 
-https://cliff-peters.github.io
+[https://cliff-peters.github.io](https://cliff-peters.github.io)
