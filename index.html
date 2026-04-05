@@ -7,6 +7,12 @@
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Mulish:wght@400;600;700;800;900&display=swap" rel="stylesheet"/>
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bdr: #333a48;
+  --muted: #9ca3b4;
+  --logo-gradient: linear-gradient(135deg, #4a90d9, #3ecf7a);
+  --logo-text: #0c0f14;
+}
 body {
   background: #0c0f14; color: #f0f2f5; font-family: "Mulish", sans-serif;
   min-height: 100vh; display: flex; flex-direction: column; align-items: center;
@@ -83,6 +89,9 @@ h1 { font-family: "Mulish", sans-serif; font-size: 1.9rem; font-weight: 800; lin
 .bd-tname { color: #f0f2f5; font-weight: 700; } .bd-tmin { color: #5a9de6; font-weight: 700; }
 .clear-btn { width: 100%; padding: 11px; background: transparent; border: 1px solid #333a48; border-radius: 8px; color: #9ca3b4; font-family: "Mulish", sans-serif; font-size: 12.5px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; transition: all 0.13s; margin-bottom: 14px; }
 .clear-btn:hover { border-color: #9ca3b4; color: #f0f2f5; }
+.footer { margin-top: 48px; padding: 24px 16px; display: flex; align-items: center; justify-content: center; gap: 8px; border-top: 1px solid var(--bdr); }
+.footer-logo { width: 18px; height: 18px; background: var(--logo-gradient); border-radius: 4px; display: flex; align-items: center; justify-content: center; font-family: "Mulish", sans-serif; font-size: 7px; font-weight: 800; color: var(--logo-text); flex-shrink: 0; }
+.footer-text { font-size: 10px; font-weight: 700; color: var(--muted); letter-spacing: 0.04em; }
 </style>
 </head>
 <body>
@@ -193,9 +202,9 @@ h1 { font-family: "Mulish", sans-serif; font-size: 1.9rem; font-weight: 800; lin
     </div>
   </div>
 
-  <div style="text-align:center;padding:40px 0 0;margin-top:40px;border-top:1px solid #333a48;display:flex;align-items:center;justify-content:center;gap:10px;">
-    <span style="width:28px;height:28px;background:linear-gradient(135deg,#4a90d9,#3ecf7a);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:900;color:#0c0f14;letter-spacing:.02em;">CP</span>
-    <span style="font-size:.7rem;font-weight:600;letter-spacing:.08em;color:#9ca3b4;">Built by Cliff Peters</span>
+  <div class="footer">
+    <div class="footer-logo">CP</div>
+    <span class="footer-text">Built by Cliff Peters</span>
   </div>
 </div>
 
